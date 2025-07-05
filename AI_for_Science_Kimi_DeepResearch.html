@@ -1,0 +1,2005 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI for Science：驱动跨学科创新的新范式</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#64748b',
+                        accent: '#0ea5e9',
+                        neutral: '#f8fafc',
+                        'neutral-content': '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(14, 165, 233, 0.8) 100%);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1.5rem;
+            height: 400px;
+        }
+        .bento-main {
+            grid-row: 1 / -1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .bento-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
+        .toc-fixed {
+            position: fixed;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .content-main {
+            margin-left: 320px;
+            padding: 2rem;
+        }
+        .citation-link {
+            color: #0ea5e9;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted #0ea5e9;
+            transition: all 0.2s ease;
+        }
+        .citation-link:hover {
+            background-color: #e0f2fe;
+            border-bottom-style: solid;
+        }
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            min-height: 300px;
+            max-height: 800px;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mermaid-container .mermaid {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .mermaid-container .mermaid svg {
+            max-width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .mermaid-container .mermaid:active {
+            cursor: grabbing;
+        }
+
+        .mermaid-container.zoomed .mermaid {
+            height: 100%;
+            width: 100%;
+            cursor: grab;
+        }
+
+        .mermaid-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mermaid-control-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 14px;
+            min-width: 36px;
+            height: 36px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mermaid-control-btn:hover {
+            background: #f8fafc;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .mermaid-control-btn:active {
+            transform: scale(0.95);
+        }
+        @media (max-width: 1280px) {
+            .toc-fixed {
+                display: none;
+            }
+            .content-main {
+                margin-left: 0;
+            }
+        }
+        @media (max-width: 1024px) {
+            .mermaid-control-btn:not(.reset-zoom) {
+                display: none;
+            }
+            .mermaid-controls {
+                top: auto;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+        }
+    </style>
+  </head>
+
+  <body class="bg-neutral font-sans text-neutral-content">
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed">
+      <h3 class="font-serif text-lg font-semibold text-primary mb-4">目录导航</h3>
+      <ul class="space-y-2 text-sm">
+        <li>
+          <a href="#hero" class="text-secondary hover:text-primary transition-colors">概述</a>
+        </li>
+        <li>
+          <a href="#methodology" class="text-secondary hover:text-primary transition-colors">核心方法论</a>
+        </li>
+        <li>
+          <a href="#applications" class="text-secondary hover:text-primary transition-colors">广泛应用领域</a>
+        </li>
+        <li>
+          <a href="#case-studies" class="text-secondary hover:text-primary transition-colors">成熟应用案例</a>
+        </li>
+        <li>
+          <a href="#research-progress" class="text-secondary hover:text-primary transition-colors">研究进展</a>
+        </li>
+        <li>
+          <a href="#challenges" class="text-secondary hover:text-primary transition-colors">面临挑战</a>
+        </li>
+        <li>
+          <a href="#future-prospects" class="text-secondary hover:text-primary transition-colors">未来前景</a>
+        </li>
+        <li>
+          <a href="#developer-role" class="text-secondary hover:text-primary transition-colors">开发者角色</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-main">
+      <!-- Hero Section -->
+      <section id="hero" class="mb-16">
+        <div class="bento-grid">
+          <!-- Main Hero Card -->
+          <div class="bento-main relative">
+            <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片14.png" alt="AI科学实验室内部场景" class="w-full h-full object-cover" size="large" aspect="wide" style="photo" query="人工智能实验室内部" referrerpolicy="no-referrer"/>
+            <div class="hero-overlay absolute inset-0 flex items-center justify-center">
+              <div class="text-center text-white px-8">
+                <h1 class="font-serif text-4xl md:text-5xl font-bold mb-4 italic">
+                  AI for Science
+                </h1>
+                <p class="text-xl md:text-2xl font-light opacity-90">
+                  驱动跨学科创新的新范式
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key Highlights -->
+          <div class="bento-card">
+            <div class="flex items-center mb-3">
+              <i class="fas fa-rocket text-accent text-xl mr-3"></i>
+              <h3 class="font-serif text-lg font-semibold">突破性进展</h3>
+            </div>
+            <p class="text-sm text-secondary">AlphaFold2预测精度达92.4 GDT_TS，与实验方法相当</p>
+          </div>
+
+          <div class="bento-card">
+            <div class="flex items-center mb-3">
+              <i class="fas fa-globe text-accent text-xl mr-3"></i>
+              <h3 class="font-serif text-lg font-semibold">全球合作</h3>
+            </div>
+            <p class="text-sm text-secondary">覆盖医学、材料、能源、半导体等多领域</p>
+          </div>
+
+          <div class="bento-card">
+            <div class="flex items-center mb-3">
+              <i class="fas fa-chart-line text-accent text-xl mr-3"></i>
+              <h3 class="font-serif text-lg font-semibold">效率提升</h3>
+            </div>
+            <p class="text-sm text-secondary">微软AI平台80小时筛选3200万种材料</p>
+          </div>
+
+          <div class="bento-card">
+            <div class="flex items-center mb-3">
+              <i class="fas fa-cogs text-accent text-xl mr-3"></i>
+              <h3 class="font-serif text-lg font-semibold">技术融合</h3>
+            </div>
+            <p class="text-sm text-secondary">物理模型、深度学习与自动化实验结合</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Introduction -->
+      <section class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-6">概述</h2>
+          <div class="prose prose-lg max-w-none">
+            <p class="text-lg leading-relaxed mb-6">
+              AI for Science 正通过数据驱动发现、物理模型增强、自动化实验及跨尺度数据融合等核心方法论，在医学制药、材料科学、生物生命科学、能源及半导体等领域引发深刻变革。
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 mt-8">
+              <div class="bg-blue-50 p-6 rounded-xl">
+                <h3 class="font-serif text-xl font-semibold text-primary mb-3">代表性成果</h3>
+                <ul class="space-y-2 text-secondary">
+                  <li>• DeepMind的AlphaFold在蛋白质结构预测上的革命性突破</li>
+                  <li>• 微软AI for Science赋能多学科研究</li>
+                  <li>• 百度飞桨螺旋桨PaddleHelix生物计算平台</li>
+                  <li>• XtalPi与辉瑞合作加速药物研发</li>
+                </ul>
+              </div>
+              <div class="bg-green-50 p-6 rounded-xl">
+                <h3 class="font-serif text-xl font-semibold text-primary mb-3">核心价值</h3>
+                <ul class="space-y-2 text-secondary">
+                  <li>• 加速科学发现和产业创新</li>
+                  <li>• 解决复杂科学问题</li>
+                  <li>• 推动跨学科融合</li>
+                  <li>• 赋能可持续发展</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Methodology Section -->
+      <section id="methodology" class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">AI for Science 核心方法论</h2>
+
+          <div class="grid gap-8">
+            <!-- Data-Driven Discovery -->
+            <div class="border-l-4 border-accent pl-6">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-4">数据驱动的科学发现</h3>
+              <p class="text-secondary mb-4">
+                数据驱动的科学发现是AI for Science中最为核心和广泛应用的方法论之一。其基本思想是利用机器学习，特别是深度学习模型，从海量的科学数据中自动学习规律、识别模式、并做出预测，从而引导科学假设的生成和验证
+                <a href="#ref-356" class="citation-link">[356]</a>。
+              </p>
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-primary mb-2">应用案例：</h4>
+                <ul class="text-sm text-secondary space-y-1">
+                  <li>• 基因组学研究：AI算法快速分析海量基因测序数据，识别疾病相关基因标记</li>
+                  <li>• 气候科学：AI模型分析历史气象数据，更准确预测极端天气事件 <a href="#ref-352" class="citation-link">[352]</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Physics-Informed AI -->
+            <div class="border-l-4 border-accent pl-6">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-4">基于物理模型的AI增强</h3>
+              <p class="text-secondary mb-4">
+                基于物理模型的AI增强方法论，旨在将已知的物理定律、化学原理或生物学机制等先验知识融入到AI模型的构建和训练过程中，从而提高模型的预测精度、泛化能力和可解释性。
+              </p>
+              <div class="bg-green-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-primary mb-2">技术实现：</h4>
+                <ul class="text-sm text-secondary space-y-1">
+                  <li>• 材料科学：将晶体结构、电子特性等物理信息作为输入特征</li>
+                  <li>• 流体动力学：构建物理信息神经网络（PINNs），融入Navier-Stokes方程 <a href="#ref-361" class="citation-link">[361]</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Automated Experimentation -->
+            <div class="border-l-4 border-accent pl-6">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-4">自动化与高通量实验结合</h3>
+              <p class="text-secondary mb-4">
+                自动化与高通量实验结合AI的方法论，旨在通过AI技术驱动实验流程的自动化，并利用AI算法设计和优化实验方案，从而大幅提升科学研究的效率和探索范围。
+              </p>
+              <div class="bg-purple-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-primary mb-2">优势特点：</h4>
+                <ul class="text-sm text-secondary space-y-1">
+                  <li>• 7x24小时不间断高通量实验 <a href="#ref-356" class="citation-link">[356]</a>
+                  </li>
+                  <li>• 主动学习优化实验设计，实现&#34;闭环&#34;智能实验</li>
+                  <li>• 药物发现中虚拟筛选数十亿化合物分子 <a href="#ref-362" class="citation-link">[362]</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Multi-modal Integration -->
+            <div class="border-l-4 border-accent pl-6">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-4">跨尺度、多模态数据融合与建模</h3>
+              <p class="text-secondary mb-4">
+                跨尺度、多模态数据融合与建模是AI for Science中应对复杂系统研究的关键方法论。许多重要的科学问题都涉及到从微观到宏观多个尺度的相互作用。
+              </p>
+              <div class="bg-orange-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-primary mb-2">应用领域：</h4>
+                <ul class="text-sm text-secondary space-y-1">
+                  <li>• 生物医学：整合基因组学、蛋白质组学、医学影像和电子病历数据 <a href="#ref-377" class="citation-link">[377]</a>
+                  </li>
+                  <li>• 材料科学：融合原子结构信息、微观组织图像和宏观力学性能数据</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Applications Section -->
+      <section id="applications" class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">AI for Science 的广泛应用领域</h2>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <!-- Medicine &amp; Pharma -->
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-pills text-blue-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">医学与制药</h3>
+              </div>
+              <p class="text-secondary mb-4">
+                人工智能在医学与制药领域的应用正深刻改变着疾病的诊断、治疗和新药研发的格局 <a href="#ref-20" class="citation-link">[20]</a>。
+              </p>
+              <div class="space-y-2 text-sm">
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>Escientia AI平台8个月内设计出新药候选分子，显著缩短研发周期</span>
+                </div>
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>东京大学：30秒视频检测糖尿病和高血压，准确率分别达75%和90% <a href="#ref-41" class="citation-link">[41]</a></span>
+                </div>
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>大阪公立大学：AI分析胸部X光片高精度估测肺功能 <a href="#ref-42" class="citation-link">[42]</a></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Materials Science -->
+            <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-atom text-green-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">材料科学</h3>
+              </div>
+              <p class="text-secondary mb-4">
+                人工智能正在重塑新材料研发的范式，通过提供更准确的数据分析和预测模型，提升材料的性能、效率和可持续性 <a href="#ref-20" class="citation-link">[20]</a>。
+              </p>
+              <div class="space-y-2 text-sm">
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>深势科技Uni-Mol从160万候选材料中筛选出1000个高效OLED小分子 <a href="#ref-8" class="citation-link">[8]</a></span>
+                </div>
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>AI优化钠电正极材料工艺，初始放电容量提升6%</span>
+                </div>
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>预测材料老化速度和寿命，评估耐久性</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Biology &amp; Life Sciences -->
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-dna text-purple-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">生物与生命科学</h3>
+              </div>
+              <p class="text-secondary mb-4">
+                人工智能在生物与生命科学领域的应用，正以前所未有的方式推动着对复杂生命过程的理解。
+              </p>
+              <div class="space-y-2 text-sm">
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>AlphaFold2预测数十万种蛋白质结构，覆盖近乎完整的人类蛋白质组 <a href="#ref-12" class="citation-link">[12]</a></span>
+                </div>
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>Evo2模型整合多组学数据，预测基因突变影响</span>
+                </div>
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>中科大和哈佛大学开发PocketGen，高效生成蛋白质口袋 <a href="#ref-14" class="citation-link">[14]</a></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Energy &amp; Semiconductors -->
+            <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-microchip text-orange-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">能源与半导体</h3>
+              </div>
+              <p class="text-secondary mb-4">
+                AI技术在能源和半导体行业的应用日益广泛，优化系统运行并提升制造效率。
+              </p>
+              <div class="space-y-2 text-sm">
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>谷歌GNoME项目预测新型锂离子导体，用于下一代高性能电池 <a href="#ref-377" class="citation-link">[377]</a></span>
+                </div>
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>AI增强模型在半导体缺陷检测中准确率达95%，工艺优化提升30% <a href="#ref-244" class="citation-link">[244]</a></span>
+                </div>
+                <div class="flex items-start">
+                  <span class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  <span>DeepMind优化谷歌风电场发电效率，营收提升约20% <a href="#ref-200" class="citation-link">[200]</a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Case Studies Section -->
+      <section id="case-studies" class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">AI for Science 的成熟应用案例深度剖析</h2>
+
+          <!-- Comprehensive Platforms -->
+          <div class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-primary mb-6">综合型AI科学平台</h3>
+
+            <!-- AlphaFold Case -->
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mb-8">
+              <div class="flex items-start mb-4">
+                <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片2.png" alt="蛋白质三维结构模型" class="w-24 h-24 rounded-lg object-cover mr-4 flex-shrink-0" size="small" aspect="square" style="photo" query="蛋白质结构模型" referrerpolicy="no-referrer"/>
+                <div>
+                  <h4 class="font-serif text-xl font-semibold text-primary mb-2">DeepMind AlphaFold：蛋白质结构预测的革命</h4>
+                  <p class="text-secondary text-sm mb-3">
+                    <strong>突破性成果：</strong>AlphaFold2在CASP14竞赛中取得GDT_TS 92.4的惊人成绩，预测精度与实验方法相当 <a href="#ref-53" class="citation-link">[53]</a>
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">技术架构</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 将蛋白质结构预测转化为空间图推理问题</li>
+                    <li>• 结合进化信息（多序列比对）和物理约束</li>
+                    <li>• 编码器-解码器网络架构</li>
+                    <li>• 端到端深度学习模型</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">影响力</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 公开AlphaFold DB数据库，包含超过2亿个蛋白质结构预测 <a href="#ref-7" class="citation-link">[7]</a>
+                    </li>
+                    <li>• 极大推动结构生物学及相关领域研究</li>
+                    <li>• 为药物设计和疾病机理研究提供强大工具</li>
+                    <li>• 启发其他复杂科学问题的AI解决方案</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Microsoft AI for Science -->
+            <div class="bg-gradient-to-r from-green-50 to-teal-50 p-6 rounded-xl mb-8">
+              <div class="flex items-start mb-4">
+                <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片2.png" alt="微软Azure Quantum Elements量子计算研究平台界面" class="w-24 h-24 rounded-lg object-cover mr-4 flex-shrink-0" size="small" aspect="square" style="photo" query="微软Azure Quantum Elements平台界面" referrerpolicy="no-referrer"/>
+                <div>
+                  <h4 class="font-serif text-xl font-semibold text-primary mb-2">微软AI for Science：赋能多学科研究</h4>
+                  <p class="text-secondary text-sm mb-3">
+                    <strong>突破性成果：</strong>与PNNL合作，80小时内从3200万种候选材料中发现新型固态电解质材料，比传统锂离子电池少用70%锂 <a href="#ref-183" class="citation-link">[183]</a>
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">核心技术</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• MatterGen：预测材料基态结构和能量特性</li>
+                    <li>• MatterSim：模拟材料在真实温压条件下的行为</li>
+                    <li>• Azure Quantum Elements：结合AI与HPC</li>
+                    <li>• 精度相比之前方法提升高达十倍</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">应用领域</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 材料发现：电池材料、催化剂设计</li>
+                    <li>• 能源存储：有机氧化还原活性分子设计 <a href="#ref-184" class="citation-link">[184]</a>
+                    </li>
+                    <li>• 气候风险管理：生物多样性监测</li>
+                    <li>• 农业优化：应对气候变化影响</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Baidu PaddleHelix -->
+            <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-xl">
+              <div class="flex items-start mb-4">
+                <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片9.png" alt="百度PaddleHelix生物计算平台界面" class="w-24 h-24 rounded-lg object-cover mr-4 flex-shrink-0" size="small" aspect="square" query="百度飞桨螺旋桨生物计算平台界面" referrerpolicy="no-referrer"/>
+                <div>
+                  <h4 class="font-serif text-xl font-semibold text-primary mb-2">百度飞桨螺旋桨PaddleHelix：生物计算深度学习平台</h4>
+                  <p class="text-secondary text-sm mb-3">
+                    <strong>平台特点：</strong>基于飞桨深度学习平台构建，为药物研发、疫苗设计、精准医疗等生物计算任务提供全面的AI能力和工具支持。
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">核心功能</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• ChemRL：基于Transformer的化合物表征模型</li>
+                    <li>• HelixFold：自研蛋白质结构预测模型</li>
+                    <li>• 药物-靶点亲和力预测模型</li>
+                    <li>• 图神经网络（GNN）支持</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">应用场景</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 蛋白质结构预测</li>
+                    <li>• 药物性质预测</li>
+                    <li>• 药物-靶点相互作用预测</li>
+                    <li>• 药物重定位与结构设计</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Industry-specific Solutions -->
+          <div>
+            <h3 class="font-serif text-2xl font-semibold text-primary mb-6">特定行业AI解决方案</h3>
+
+            <!-- Pharmaceutical Case -->
+            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl mb-8">
+              <h4 class="font-serif text-xl font-semibold text-primary mb-4">制药行业：AI加速药物研发</h4>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">XtalPi与辉瑞合作案例</h5>
+                  <p class="text-sm text-secondary mb-3">
+                    XtalPi与辉瑞合作开发下一代分子建模平台，推动AI驱动的药物发现和材料科学模拟 <a href="#ref-74" class="citation-link">[74]</a>。
+                  </p>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• XFF力场模型：达到量子力学水平的预测精度</li>
+                    <li>• 准确的自由能微扰（FEP）计算</li>
+                    <li>• XFEP平台：完整FEP计算流程</li>
+                    <li>• 提高准确性、速度和用户友好性</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">DSP-1181案例（Exscientia）</h5>
+                  <p class="text-sm text-secondary mb-3">
+                    全球首个由AI从头设计并进入临床研究阶段的药物分子，用于治疗强迫症 <a href="#ref-106" class="citation-link">[106]</a>
+                    <a href="#ref-108" class="citation-link">[108]</a>。
+                  </p>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• Centaur Chemist™ AI药物发现平台</li>
+                    <li>• 仅用12个月完成传统需4-5年的探索性研究 <a href="#ref-111" class="citation-link">[111]</a>
+                    </li>
+                    <li>• 设计为长效、强效的血清素5-HT1A受体完全激动剂</li>
+                    <li>• 虽然最终临床开发终止，但为后续研究积累了宝贵经验</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Energy Case -->
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl mb-8">
+              <h4 class="font-serif text-xl font-semibold text-primary mb-4">能源行业：AI优化电网调度与故障预测</h4>
+
+              <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg">
+                  <h5 class="font-semibold text-primary mb-2">DeepMind合作案例</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 数据中心冷却系统优化：能耗降低40% <a href="#ref-200" class="citation-link">[200]</a>
+                    </li>
+                    <li>• 风电场发电效率提升：营收提升约20%</li>
+                    <li>• 提前36小时预测风力发电输出</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg">
+                  <h5 class="font-semibold text-primary mb-2">杜克能源与微软合作</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 利用Azure和Dynamics 365平台</li>
+                    <li>• 结合卫星监测和地面传感器数据</li>
+                    <li>• AI分析实时监测天然气管道泄漏 <a href="#ref-178" class="citation-link">[178]</a>
+                    </li>
+                    <li>• 助力2030年净零甲烷排放目标</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg">
+                  <h5 class="font-semibold text-primary mb-2">BP公司应用</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• AI监测钻井设备</li>
+                    <li>• 通过传感器数据分析预测潜在故障</li>
+                    <li>• 提高钻井效率，减少维护停机时间</li>
+                    <li>• 带来显著成本节约 <a href="#ref-204" class="citation-link">[204]</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Semiconductor Case -->
+            <div class="bg-gradient-to-r from-orange-50 to-red-50 p-6 rounded-xl">
+              <h4 class="font-serif text-xl font-semibold text-primary mb-4">半导体行业：AI在芯片缺陷检测与良率提升中的应用</h4>
+
+              <div class="bg-white p-4 rounded-lg mb-4">
+                <p class="text-secondary mb-4">
+                  研究表明，与传统方法相比，<strong>AI增强模型在缺陷检测方面准确率高达95%，在工艺优化方面提升了30%，同时将维护成本降低了20%</strong>
+                  <a href="#ref-244" class="citation-link">[244]</a>。
+                </p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">案例一：基于CNN的晶圆缺陷检测</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 传统方法：人工目检或基于规则的AOI系统</li>
+                    <li>• 问题：效率低下、准确率不高</li>
+                    <li>• AI解决方案：卷积神经网络（CNN）</li>
+                    <li>• 成果：缺陷检测准确率达95%</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 class="font-semibold text-primary mb-2">案例二：基于机器学习的工艺优化</h5>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 传统方法：依赖工程师经验、试错实验</li>
+                    <li>• 问题：耗时耗力、难以处理复杂工艺系统</li>
+                    <li>• AI解决方案：机器学习模型分析历史生产数据</li>
+                    <li>• 成果：工艺优化提升30%</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Research Progress Section -->
+      <section id="research-progress" class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">AI for Science 当前的主要研究方向与应用进展</h2>
+
+          <!-- Academic Research -->
+          <div class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-primary mb-6">学术界前沿探索</h3>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <!-- China Research -->
+              <div class="bg-gradient-to-br from-red-50 to-pink-50 p-6 rounded-xl">
+                <h4 class="font-serif text-lg font-semibold text-primary mb-4">中国</h4>
+                <div class="space-y-3 text-sm">
+                  <div>
+                    <strong class="text-primary">中科院</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• 深圳先进院：SYMPLEX功能基因智能挖掘大模型 <a href="#ref-13" class="citation-link">[13]</a>
+                      </li>
+                      <li>• 高能物理所：Dr.Sai多智能体协同系统 <a href="#ref-17" class="citation-link">[17]</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong class="text-primary">中科大</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• 与哈佛大学合作开发PocketGen蛋白质生成算法 <a href="#ref-14" class="citation-link">[14]</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong class="text-primary">北京大学</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• DeepFlame反应流高精度数值模拟平台</li>
+                      <li>• 火箭发动机模拟超千倍加速 <a href="#ref-17" class="citation-link">[17]</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Japan Research -->
+              <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl">
+                <h4 class="font-serif text-lg font-semibold text-primary mb-4">日本</h4>
+                <div class="space-y-3 text-sm">
+                  <div>
+                    <strong class="text-primary">东京大学</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• 自律物质探索机器人 <a href="#ref-39" class="citation-link">[39]</a>
+                      </li>
+                      <li>• 医学部：30秒视频检测糖尿病和高血压 <a href="#ref-41" class="citation-link">[41]</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong class="text-primary">大阪公立大学</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• AI分析胸部X光片估测肺功能 <a href="#ref-42" class="citation-link">[42]</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong class="text-primary">NIMS</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• AI设计特定热导率纳米复合材料 <a href="#ref-59" class="citation-link">[59]</a>
+                      </li>
+                      <li>• NEC与东北大学：CoPtN合金热电转换效率提升100倍 <a href="#ref-60" class="citation-link">[60]</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- US Research -->
+              <div class="bg-gradient-to-br from-green-50 to-teal-50 p-6 rounded-xl">
+                <h4 class="font-serif text-lg font-semibold text-primary mb-4">美国</h4>
+                <div class="space-y-3 text-sm">
+                  <div>
+                    <strong class="text-primary">斯坦福大学</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• Virtual Lab多智能体系统</li>
+                      <li>• 成功设计结合新冠病毒刺突蛋白的纳米抗体 <a href="#ref-14" class="citation-link">[14]</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong class="text-primary">哈佛大学</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• 与中科大合作PocketGen</li>
+                      <li>• RhoFold+ RNA结构预测模型 <a href="#ref-14" class="citation-link">[14]</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong class="text-primary">康奈尔大学</strong>
+                    <ul class="text-secondary ml-2 mt-1 space-y-1">
+                      <li>• PIONEER模型</li>
+                      <li>• 识别癌症预后和药物反应相关的关键蛋白相互作用</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Industry Applications -->
+          <div class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-primary mb-6">产业界应用深化</h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+              <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-xl">
+                <h4 class="font-serif text-lg font-semibold text-primary mb-4">国际企业</h4>
+                <div class="space-y-4">
+                  <div>
+                    <strong class="text-primary">DeepMind</strong>
+                    <p class="text-sm text-secondary mt-1">AlphaFold系列模型革命性突破，推出AlphaFold 3，扩展至蛋白质与其他生物分子复合体预测 <a href="#ref-2" class="citation-link">[2]</a>
+                      <a href="#ref-12" class="citation-link">[12]</a>
+                    </p>
+                  </div>
+                  <div>
+                    <strong class="text-primary">微软</strong>
+                    <p class="text-sm text-secondary mt-1">与诺华等制药公司合作加速药物研发，参与欧盟AI4EU项目创建开放AI平台 <a href="#ref-44" class="citation-link">[44]</a>
+                      <a href="#ref-63" class="citation-link">[63]</a>
+                    </p>
+                  </div>
+                  <div>
+                    <strong class="text-primary">英伟达</strong>
+                    <p class="text-sm text-secondary mt-1">提供GPU加速计算平台和AI解决方案，支持精准医疗、药物研发和医学影像分析 <a href="#ref-4" class="citation-link">[4]</a>
+                      <a href="#ref-19" class="citation-link">[19]</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl">
+                <h4 class="font-serif text-lg font-semibold text-primary mb-4">中国企业</h4>
+                <div class="space-y-4">
+                  <div>
+                    <strong class="text-primary">百度</strong>
+                    <p class="text-sm text-secondary mt-1">飞桨螺旋桨PaddleHelix生物计算平台，为基因组学、蛋白质结构预测、药物发现等提供全面AI解决方案</p>
+                  </div>
+                  <div>
+                    <strong class="text-primary">晶泰科技（XtalPi）</strong>
+                    <p class="text-sm text-secondary mt-1">&#34;量子物理+AI+机器人&#34;底层研发平台，与辉瑞、礼来等大型药企深度合作，参与PAXLOVID研发 <a href="#ref-5" class="citation-link">[5]</a>
+                      <a href="#ref-6" class="citation-link">[6]</a>
+                    </p>
+                  </div>
+                  <div>
+                    <strong class="text-primary">深势科技</strong>
+                    <p class="text-sm text-secondary mt-1">Uni-Mol分子大模型，构建&#34;AI科学家&#34;操作系统Uni-Lab-OS，推动实验室自动化和智能化 <a href="#ref-8" class="citation-link">[8]</a>
+                      <a href="#ref-10" class="citation-link">[10]</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Open Source Tools -->
+          <div>
+            <h3 class="font-serif text-2xl font-semibold text-primary mb-6">开源工具与平台的发展</h3>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
+                <h4 class="font-serif text-lg font-semibold text-primary mb-4">重要开源贡献</h4>
+                <ul class="space-y-3 text-sm text-secondary">
+                  <li class="flex items-start">
+                    <i class="fas fa-database text-blue-500 mt-1 mr-2"></i>
+                    <div>
+                      <strong>AlphaFold DB</strong>：DeepMind公开超过2亿个蛋白质结构预测结果 <a href="#ref-7" class="citation-link">[7]</a>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-code text-green-500 mt-1 mr-2"></i>
+                    <div>
+                      <strong>PocketGen</strong>：中科大和哈佛大学联合开发蛋白质生成算法 <a href="#ref-14" class="citation-link">[14]</a>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-cube text-purple-500 mt-1 mr-2"></i>
+                    <div>
+                      <strong>Uni-Mol</strong>：深势科技通用分子表征学习框架，基于2亿小分子数据训练 <a href="#ref-7" class="citation-link">[7]</a>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-globe text-orange-500 mt-1 mr-2"></i>
+                    <div>
+                      <strong>AI4EU项目</strong>：微软参与创建开放、可持续的AI-On-Demand平台 <a href="#ref-63" class="citation-link">[63]</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
+                <h4 class="font-serif text-lg font-semibold text-primary mb-4">平台建设</h4>
+                <ul class="space-y-3 text-sm text-secondary">
+                  <li class="flex items-start">
+                    <i class="fas fa-robot text-blue-500 mt-1 mr-2"></i>
+                    <div>
+                      <strong>PaddleHelix</strong>：百度开源的生物计算深度学习平台
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-atom text-green-500 mt-1 mr-2"></i>
+                    <div>
+                      <strong>OpenLAM</strong>：大原子模型计划，构建深度势能预训练大模型 <a href="#ref-10" class="citation-link">[10]</a>
+                      <a href="#ref-11" class="citation-link">[11]</a>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-flask text-purple-500 mt-1 mr-2"></i>
+                    <div>
+                      <strong>LabV®平台</strong>：AI驱动的材料智能平台，集成数据管理和AI功能 <a href="#ref-47" class="citation-link">[47]</a>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-github text-gray-500 mt-1 mr-2"></i>
+                    <div>
+                      <strong>开源社区</strong>：GitHub涌现大量AI for Science相关项目和代码库
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Challenges Section -->
+      <section id="challenges" class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">AI for Science 面临的主要挑战</h2>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <!-- Data Challenges -->
+            <div class="bg-gradient-to-br from-red-50 to-pink-50 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-database text-red-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">高质量科学数据的获取与共享</h3>
+              </div>
+              <div class="space-y-3 text-sm text-secondary">
+                <p><strong>核心问题：</strong>AI模型性能高度依赖训练数据的数量、质量和多样性，但科学数据获取困难。</p>
+                <div class="bg-white p-3 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">具体挑战：</h4>
+                  <ul class="space-y-1">
+                    <li>• 科学实验成本高昂、耗时漫长，数据量有限</li>
+                    <li>• 数据分散在不同数据库，格式不统一，质量参差不齐 <a href="#ref-7" class="citation-link">[7]</a>
+                      <a href="#ref-30" class="citation-link">[30]</a>
+                    </li>
+                    <li>• 涉及隐私或商业机密的数据共享受限</li>
+                    <li>• 数据孤岛现象普遍，共享机制不健全</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-3 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">解决方向：</h4>
+                  <ul class="space-y-1">
+                    <li>• 建立标准化数据采集和标注流程</li>
+                    <li>• 推动数据开放共享文化和机制</li>
+                    <li>• 开发联邦学习等隐私保护技术</li>
+                    <li>• 构建领域特定公共数据库和知识图谱</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Model Interpretability -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-brain text-blue-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">模型的可解释性与可靠性</h3>
+              </div>
+              <div class="space-y-3 text-sm text-secondary">
+                <p><strong>核心问题：</strong>AI模型通常是&#34;黑箱&#34;，内部决策逻辑难以理解，影响科学家的信任 <a href="#ref-23" class="citation-link">[23]</a>
+                  <a href="#ref-26" class="citation-link">[26]</a>。
+                </p>
+                <div class="bg-white p-3 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">具体挑战：</h4>
+                  <ul class="space-y-1">
+                    <li>• 理解&#34;为什么&#34;比知道&#34;是什么&#34;更重要</li>
+                    <li>• 模型泛化能力不足，可能出现过拟合</li>
+                    <li>• 数据中的偏差可能被模型学习并放大 <a href="#ref-1" class="citation-link">[1]</a>
+                      <a href="#ref-30" class="citation-link">[30]</a>
+                    </li>
+                    <li>• 在不同场景下的可靠性难以保证</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-3 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">解决方向：</h4>
+                  <ul class="space-y-1">
+                    <li>• 发展可解释性AI（XAI）技术</li>
+                    <li>• 加强模型鲁棒性、不确定性和公平性评估</li>
+                    <li>• 将领域知识融入模型设计</li>
+                    <li>• 开发神经符号AI等新型架构</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Talent Shortage -->
+            <div class="bg-gradient-to-br from-green-50 to-teal-50 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-users text-green-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">跨学科人才短缺</h3>
+              </div>
+              <div class="space-y-3 text-sm text-secondary">
+                <p><strong>核心问题：</strong>既懂AI技术又深谙特定科学领域知识的跨学科人才全球范围内相对短缺。</p>
+                <div class="bg-white p-3 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">具体挑战：</h4>
+                  <ul class="space-y-1">
+                    <li>• 传统教育体系将AI和科学学科划分独立</li>
+                    <li>• AI专家不熟悉科学问题的复杂性</li>
+                    <li>• 领域科学家缺乏AI技术应用技能</li>
+                    <li>• 知识壁垒导致技术融合不够深入</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-3 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">解决方向：</h4>
+                  <ul class="space-y-1">
+                    <li>• 改革教育模式，鼓励学科交叉</li>
+                    <li>• 设立跨学科学位项目和研究计划</li>
+                    <li>• 加强产学研合作</li>
+                    <li>• 开发更易用的AI工具和平台</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Computational Resources -->
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-server text-purple-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">计算资源的需求与分配</h3>
+              </div>
+              <div class="space-y-3 text-sm text-secondary">
+                <p><strong>核心问题：</strong>深度学习模型需要巨大计算资源进行训练和推理，但资源成本高昂且分配不均。</p>
+                <div class="bg-white p-3 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">具体挑战：</h4>
+                  <ul class="space-y-1">
+                    <li>• 大规模数据集处理和复杂模型构建需要强大计算能力</li>
+                    <li>• 高性能计算集群和AI加速硬件成本高昂</li>
+                    <li>• 计算资源分配不均可能导致研究差距扩大</li>
+                    <li>• AlphaFold等模型的训练消耗大量计算资源 <a href="#ref-12" class="citation-link">[12]</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="bg-white p-3 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">解决方向：</h4>
+                  <ul class="space-y-1">
+                    <li>• 加大对公共计算基础设施的投入</li>
+                    <li>• 建立更公平的计算资源分配机制</li>
+                    <li>• 推广云计算和边缘计算</li>
+                    <li>• 开发更高效的AI算法和模型压缩技术</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ethics and Social Impact -->
+            <div class="bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-xl md:col-span-2">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-balance-scale text-orange-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">伦理与社会影响考量</h3>
+              </div>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-3">主要关切</h4>
+                  <ul class="space-y-2 text-sm text-secondary">
+                    <li class="flex items-start">
+                      <i class="fas fa-shield-alt text-red-500 mt-1 mr-2 text-xs"></i>
+                      <div><strong>数据隐私和安全：</strong>生物医学数据包含个人敏感信息，需有效保护</div>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-equals text-blue-500 mt-1 mr-2 text-xs"></i>
+                      <div><strong>算法偏见和公平性：</strong>训练数据偏见可能导致不公平预测结果</div>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-gavel text-purple-500 mt-1 mr-2 text-xs"></i>
+                      <div><strong>AI决策责任归属：</strong>错误决策导致不良后果时的责任界定</div>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-industry text-green-500 mt-1 mr-2 text-xs"></i>
+                      <div><strong>科研生态影响：</strong>改变传统科研模式，可能引发结构性失业</div>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-exclamation-triangle text-orange-500 mt-1 mr-2 text-xs"></i>
+                      <div><strong>技术滥用风险：</strong>开发新型生物武器或恶意科学传播</div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-3">应对措施</h4>
+                  <ul class="space-y-2 text-sm text-secondary">
+                    <li class="flex items-start">
+                      <i class="fas fa-book text-blue-500 mt-1 mr-2 text-xs"></i>
+                      <div>加强伦理规范建设和法律法规完善</div>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-handshake text-green-500 mt-1 mr-2 text-xs"></i>
+                      <div>推动建立完善的AI治理体系</div>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-eye text-purple-500 mt-1 mr-2 text-xs"></i>
+                      <div>建立技术滥用防范机制</div>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-users text-orange-500 mt-1 mr-2 text-xs"></i>
+                      <div>引导社会共识，确保技术向善</div>
+                    </li>
+                    <li class="flex items-start">
+                      <i class="fas fa-globe text-teal-500 mt-1 mr-2 text-xs"></i>
+                      <div>促进国际合作，共同应对挑战</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Future Prospects Section -->
+      <section id="future-prospects" class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">AI for Science 的未来应用前景</h2>
+
+          <div class="space-y-12">
+            <!-- Breakthroughs in Basic Science -->
+            <div>
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-6">推动基础科学理论的突破</h3>
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl">
+                  <h4 class="font-serif text-lg font-semibold text-primary mb-3">物理学</h4>
+                  <ul class="text-sm text-secondary space-y-2">
+                    <li>• 分析大型强子对撞机数据，寻找新粒子线索</li>
+                    <li>• 探索量子计算和量子信息的新理论</li>
+                    <li>• 解决复杂多体物理问题</li>
+                  </ul>
+                </div>
+                <div class="bg-gradient-to-br from-green-50 to-teal-50 p-6 rounded-xl">
+                  <h4 class="font-serif text-lg font-semibold text-primary mb-3">生物学</h4>
+                  <ul class="text-sm text-secondary space-y-2">
+                    <li>• 理解细胞信号通路精确调控机制</li>
+                    <li>• 揭示大脑认知功能的神经基础</li>
+                    <li>• 解析复杂生态系统动态平衡</li>
+                  </ul>
+                </div>
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
+                  <h4 class="font-serif text-lg font-semibold text-primary mb-3">数学与宇宙学</h4>
+                  <ul class="text-sm text-secondary space-y-2">
+                    <li>• 辅助数学家进行猜想和证明</li>
+                    <li>• 探索暗物质、暗能量本质</li>
+                    <li>• 研究宇宙起源和演化</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Technology Innovation -->
+            <div>
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-6">加速技术创新与产业升级</h3>
+              <div class="bg-gradient-to-r from-orange-50 to-red-50 p-8 rounded-xl">
+                <div class="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <h4 class="font-serif text-lg font-semibold text-primary mb-4">关键产业领域</h4>
+                    <div class="space-y-4">
+                      <div class="bg-white p-4 rounded-lg">
+                        <h5 class="font-semibold text-primary mb-2">新材料研发</h5>
+                        <p class="text-sm text-secondary">大幅缩短新材料发现和优化周期，应用于新能源、电子信息、航空航天等产业</p>
+                      </div>
+                      <div class="bg-white p-4 rounded-lg">
+                        <h5 class="font-semibold text-primary mb-2">药物研发</h5>
+                        <p class="text-sm text-secondary">显著降低新药研发成本和时间，提高成功率，推动个性化医疗实现</p>
+                      </div>
+                      <div class="bg-white p-4 rounded-lg">
+                        <h5 class="font-semibold text-primary mb-2">能源与半导体</h5>
+                        <p class="text-sm text-secondary">优化能源系统运行效率，提升芯片设计和制造效率与良率</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 class="font-serif text-lg font-semibold text-primary mb-4">发展模式</h4>
+                    <div class="space-y-3">
+                      <div class="flex items-center bg-white p-3 rounded-lg">
+                        <i class="fas fa-rocket text-blue-500 mr-3"></i>
+                        <span class="text-sm text-secondary">催生新的技术和产品</span>
+                      </div>
+                      <div class="flex items-center bg-white p-3 rounded-lg">
+                        <i class="fas fa-cogs text-green-500 mr-3"></i>
+                        <span class="text-sm text-secondary">赋能传统产业转型升级</span>
+                      </div>
+                      <div class="flex items-center bg-white p-3 rounded-lg">
+                        <i class="fas fa-chart-line text-purple-500 mr-3"></i>
+                        <span class="text-sm text-secondary">提升国家整体创新能力和竞争力</span>
+                      </div>
+                      <div class="flex items-center bg-white p-3 rounded-lg">
+                        <i class="fas fa-leaf text-teal-500 mr-3"></i>
+                        <span class="text-sm text-secondary">实现更高效、更绿色、更智能的产业发展</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sustainable Development -->
+            <div>
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-6">赋能可持续发展与全球挑战应对</h3>
+              <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl">
+                  <h4 class="font-serif text-lg font-semibold text-primary mb-4">全球性挑战</h4>
+                  <div class="space-y-3">
+                    <div class="flex items-start bg-white p-3 rounded-lg">
+                      <i class="fas fa-thermometer-half text-red-500 mt-1 mr-3"></i>
+                      <div>
+                        <h5 class="font-semibold text-primary mb-1">气候变化</h5>
+                        <p class="text-xs text-secondary">构建精确气候模型，预测极端天气，评估影响</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start bg-white p-3 rounded-lg">
+                      <i class="fas fa-leaf text-green-500 mt-1 mr-3"></i>
+                      <div>
+                        <h5 class="font-semibold text-primary mb-1">环境保护</h5>
+                        <p class="text-xs text-secondary">监测环境污染，评估生态系统健康，预测自然灾害</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start bg-white p-3 rounded-lg">
+                      <i class="fas fa-heartbeat text-blue-500 mt-1 mr-3"></i>
+                      <div>
+                        <h5 class="font-semibold text-primary mb-1">公共卫生</h5>
+                        <p class="text-xs text-secondary">疫情监测预警，病毒溯源，药物疫苗研发</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start bg-white p-3 rounded-lg">
+                      <i class="fas fa-seedling text-yellow-500 mt-1 mr-3"></i>
+                      <div>
+                        <h5 class="font-semibold text-primary mb-1">粮食安全</h5>
+                        <p class="text-xs text-secondary">精准农业，病虫害预测，作物育种优化</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl">
+                  <h4 class="font-serif text-lg font-semibold text-primary mb-4">AI解决方案</h4>
+                  <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg">
+                      <h5 class="font-semibold text-primary mb-2">整合多源数据</h5>
+                      <p class="text-sm text-secondary">整合卫星、传感器、实验等多源数据，构建全面的知识体系</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg">
+                      <h5 class="font-semibold text-primary mb-2">构建复杂模型</h5>
+                      <p class="text-sm text-secondary">利用深度学习构建能够处理复杂系统的预测和优化模型</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg">
+                      <h5 class="font-semibold text-primary mb-2">优化决策方案</h5>
+                      <p class="text-sm text-secondary">为政策制定和资源分配提供科学依据和最优方案</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg">
+                      <h5 class="font-semibold text-primary mb-2">构建人类命运共同体</h5>
+                      <p class="text-sm text-secondary">通过国际合作应对全球性挑战，为人类可持续发展贡献力量</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Developer Role Section -->
+      <section id="developer-role" class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">AI工程师与开发者如何助力AI for Science</h2>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <!-- Open Source Contribution -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">参与开发开源AI工具与平台</h3>
+              </div>
+              <div class="space-y-4">
+                <p class="text-sm text-secondary">
+                  积极参与和贡献开源AI工具与平台是AI工程师助力AI for Science的重要方式。开源社区是AI技术发展和创新的重要引擎。
+                </p>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">具体行动</h4>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 参与现有AI for Science开源项目，贡献代码、修复bug</li>
+                    <li>• 开发针对特定科学数据类型的预处理工具、特征提取库</li>
+                    <li>• 贡献新的AI模型或训练脚本，解决特定科学问题</li>
+                    <li>• 参与构建和维护开放的AI平台</li>
+                    <li>• 将自己在特定科学问题上的解决方案开源</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">预期效果</h4>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 加速知识传播和技术普及</li>
+                    <li>• 降低AI在科学研究中的应用门槛</li>
+                    <li>• 促进整个AI for Science生态系统繁荣</li>
+                    <li>• 建立个人在学术和工业界的影响力</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Domain Integration -->
+            <div class="bg-gradient-to-br from-green-50 to-teal-50 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-puzzle-piece text-green-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">推动AI与特定科学领域的深度融合</h3>
+              </div>
+              <div class="space-y-4">
+                <p class="text-sm text-secondary">
+                  AI工程师需要主动了解和学习特定科学领域的知识，推动AI技术与这些领域的深度融合。仅仅掌握通用的AI技术是不够的。
+                </p>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">关键步骤</h4>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 积极与领域科学家沟通合作，了解挑战和痛点</li>
+                    <li>• 学习特定科学领域的基础知识和研究范式</li>
+                    <li>• 将领域知识（如物理定律、化学约束）融入模型设计</li>
+                    <li>• 开发能够处理特定科学数据格式的专用算法</li>
+                    <li>• 与领域专家共同定义问题，设计解决方案</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">学习重点</h4>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 生物医学：基因组学、蛋白质组学、医学影像学</li>
+                    <li>• 材料科学：晶体结构、物理化学性质</li>
+                    <li>• 化学：分子结构、反应机理</li>
+                    <li>• 物理：基本定律、数学模型</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interdisciplinary Thinking -->
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-users text-purple-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">培养跨学科思维与协作能力</h3>
+              </div>
+              <div class="space-y-4">
+                <p class="text-sm text-secondary">
+                  培养跨学科思维和协作能力对于AI工程师在AI for Science领域取得成功至关重要。AI for Science本质上是多学科交叉的领域。
+                </p>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">核心能力</h4>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 良好的沟通能力，清晰表达技术方案</li>
+                    <li>• 理解领域科学家的需求和专业术语</li>
+                    <li>• 有效的团队协作和项目管理能力</li>
+                    <li>• 开放的心态和持续学习的意愿</li>
+                    <li>• 主动学习其他学科知识的主动性</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">培养途径</h4>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 参与跨学科的研究项目和研讨会</li>
+                    <li>• 参加专业培训和课程</li>
+                    <li>• 阅读跨学科文献和书籍</li>
+                    <li>• 与不同背景的专业人士交流合作</li>
+                    <li>• 成为连接AI技术与科学发现的桥梁</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ethics and Responsible Innovation -->
+            <div class="bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-xl">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-balance-scale text-orange-600 text-2xl mr-3"></i>
+                <h3 class="font-serif text-xl font-semibold text-primary">关注AI伦理与负责任创新</h3>
+              </div>
+              <div class="space-y-4">
+                <p class="text-sm text-secondary">
+                  AI工程师在推动AI for Science发展的同时，必须高度关注AI伦理问题，并践行负责任创新的理念。随着AI技术应用深入，其潜在风险也日益凸显。
+                </p>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">重点关注</h4>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 数据隐私保护：严格遵守法规，采用匿名化、加密技术</li>
+                    <li>• 算法公平性：避免引入或放大偏见</li>
+                    <li>• 社会影响评估：确保技术向善</li>
+                    <li>• 安全性和鲁棒性：防止恶意攻击和误用</li>
+                    <li>• 透明度和可解释性：建立信任机制</li>
+                  </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg">
+                  <h4 class="font-semibold text-primary mb-2">实践方法</h4>
+                  <ul class="text-sm text-secondary space-y-1">
+                    <li>• 参与AI伦理规范的讨论和制定</li>
+                    <li>• 推动建立完善的AI治理体系</li>
+                    <li>• 在设计和开发中内置伦理考量</li>
+                    <li>• 进行全面的风险评估和影响分析</li>
+                    <li>• 坚持负责任创新，确保健康发展</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Call to Action -->
+          <div class="mt-12 bg-gradient-to-r from-primary to-accent p-8 rounded-xl text-white">
+            <div class="text-center">
+              <h3 class="font-serif text-2xl font-bold mb-4">加入AI for Science革命</h3>
+              <p class="text-lg mb-6 opacity-90">
+                AI for Science正在重新定义科学发现的方式，为人类知识边界的拓展提供了前所未有的机遇。
+              </p>
+              <div class="grid md:grid-cols-3 gap-6 text-sm">
+                <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                  <i class="fas fa-lightbulb text-2xl mb-2"></i>
+                  <p>参与开源项目，贡献你的代码和创意</p>
+                </div>
+                <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                  <i class="fas fa-handshake text-2xl mb-2"></i>
+                  <p>与科学家合作，解决真实世界的挑战</p>
+                </div>
+                <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                  <i class="fas fa-globe text-2xl mb-2"></i>
+                  <p>共同塑造AI for Science的美好未来</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Methodology Flow Diagram -->
+      <section class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">AI for Science 方法论流程</h2>
+          <div class="mermaid-container">
+            <div class="mermaid-controls">
+              <button class="mermaid-control-btn zoom-in" title="放大">
+                <i class="fas fa-search-plus"></i>
+              </button>
+              <button class="mermaid-control-btn zoom-out" title="缩小">
+                <i class="fas fa-search-minus"></i>
+              </button>
+              <button class="mermaid-control-btn reset-zoom" title="重置">
+                <i class="fas fa-expand-arrows-alt"></i>
+              </button>
+              <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                <i class="fas fa-expand"></i>
+              </button>
+            </div>
+            <div class="mermaid" id="methodology-diagram">
+              graph TD
+              A[&#34;科学问题定义&#34;] --&gt; B[&#34;数据收集与预处理&#34;]
+              B --&gt; C[&#34;AI模型选择&#34;]
+              C --&gt; D[&#34;物理约束融合&#34;]
+              D --&gt; E[&#34;模型训练与优化&#34;]
+              E --&gt; F[&#34;结果验证与解释&#34;]
+              F --&gt; G[&#34;科学发现与洞察&#34;]
+              G --&gt; H[&#34;指导实验设计&#34;]
+              H --&gt; I[&#34;自动化实验执行&#34;]
+              I --&gt; J[&#34;新数据生成&#34;]
+              J --&gt; B
+              F --&gt; K[&#34;跨尺度数据融合&#34;]
+              K --&gt; L[&#34;多模态建模&#34;]
+              L --&gt; G
+
+              style A fill:#e0f2fe,stroke:#1e40af,stroke-width:2px,color:#1e293b
+              style G fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#1e293b
+              style B fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style C fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style D fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style E fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style F fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style H fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style I fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style J fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style K fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+              style L fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b
+            </div>
+          </div>
+          <div class="mt-6 text-sm text-secondary text-center">
+            <p><i class="fas fa-info-circle mr-1"></i> 支持拖拽移动和缩放查看，点击右上角按钮进行缩放控制</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- References Section -->
+      <section class="mb-16">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h2 class="font-serif text-3xl font-bold text-primary mb-8">参考文献</h2>
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div class="space-y-2">
+              <p id="ref-1"><strong>[1]</strong>
+                <a href="https://www.ihns.ac.cn/xwdt/xsdt/202411/t20241118_7440833.html" class="citation-link">中科院自然科学史研究所 - AI伦理与规范研究</a>
+              </p>
+              <p id="ref-2"><strong>[2]</strong>
+                <a href="https://www.fjzl.com.cn/ybkj/ylxs/202410/t20241017_17076.htm" class="citation-link">福建中医药大学 - DeepMind AlphaFold应用</a>
+              </p>
+              <p id="ref-3"><strong>[3]</strong>
+                <a href="https://www.siss.sh.cn/c/2025-01-07/664487.shtml" class="citation-link">上海硅酸盐研究所 - AI材料科学研究</a>
+              </p>
+              <p id="ref-4"><strong>[4]</strong>
+                <a href="https://www.intel.cn/content/www/cn/zh/healthcare-it/artificial-intelligence.html" class="citation-link">英特尔 - AI医疗健康解决方案</a>
+              </p>
+              <p id="ref-5"><strong>[5]</strong>
+                <a href="https://finance.sina.com.cn/jjxw/2025-01-27/doc-inehktwz9459323.shtml" class="citation-link">新浪财经 - 晶泰科技AI制药报道</a>
+              </p>
+              <p id="ref-6"><strong>[6]</strong>
+                <a href="https://www.cls.cn/detail/1930954" class="citation-link">财联社 - XtalPi与辉瑞合作新闻</a>
+              </p>
+              <p id="ref-7"><strong>[7]</strong>
+                <a href="https://news.sciencenet.cn/htmlnews/2023/5/500308.shtm" class="citation-link">科学网 - AlphaFold DB数据库报道</a>
+              </p>
+              <p id="ref-8"><strong>[8]</strong>
+                <a href="http://www.news.cn/tech/20250319/63880e9e7e96463d989eb5ec9e117bbb/c.html" class="citation-link">新华网 - 深势科技Uni-Mol报道</a>
+              </p>
+              <p id="ref-10"><strong>[10]</strong>
+                <a href="https://m.bjnews.com.cn/detail/1742358764129103.html" class="citation-link">新京报 - 深势科技AI科学家操作系统</a>
+              </p>
+              <p id="ref-11"><strong>[11]</strong>
+                <a href="https://kw.beijing.gov.cn/ztzl/rdzt/kjrmt/202503/t20250320_4039233.html" class="citation-link">北京市科委 - 大原子模型计划</a>
+              </p>
+              <p id="ref-12"><strong>[12]</strong>
+                <a href="https://zhuanlan.zhihu.com/p/28892738089" class="citation-link">知乎专栏 - AlphaFold 3技术解析</a>
+              </p>
+              <p id="ref-13"><strong>[13]</strong>
+                <a href="https://www.siat.ac.cn/siatxww/kyjz/202504/t20250411_7593519.html" class="citation-link">中科院深圳先进院 - SYMPLEX大模型</a>
+              </p>
+              <p id="ref-14"><strong>[14]</strong>
+                <a href="https://www.phirda.com/artilce_37942.html?module=trackingCodeGenerator" class="citation-link">医药导报 - AI蛋白质设计研究</a>
+              </p>
+              <p id="ref-17"><strong>[17]</strong>
+                <a href="https://news.sciencenet.cn/htmlnews/2025/4/541922.shtm" class="citation-link">科学网 - Dr.Sai多智能体系统</a>
+              </p>
+              <p id="ref-19"><strong>[19]</strong>
+                <a href="https://www.nvidia.cn/industries/healthcare-life-sciences/" class="citation-link">NVIDIA - 医疗健康和生命科学</a>
+              </p>
+              <p id="ref-20"><strong>[20]</strong>
+                <a href="https://pdf.dfcfw.com/pdf/H3_AP202504291664558547_1.pdf?1745955566000.pdf" class="citation-link">东方财富 - AI在制药领域的应用报告</a>
+              </p>
+              <p id="ref-23"><strong>[23]</strong>
+                <a href="https://m.thepaper.cn/newsDetail_forward_29318016" class="citation-link">澎湃新闻 - AI可解释性研究</a>
+              </p>
+              <p id="ref-26"><strong>[26]</strong>
+                <a href="https://swarma.org/?p=59016" class="citation-link">集智俱乐部 - AI模型可靠性研究</a>
+              </p>
+              <p id="ref-30"><strong>[30]</strong>
+                <a href="https://biomarkerres.biomedcentral.com/articles/10.1186/s40364-025-00758-2" class="citation-link">Biomarker Research - AI在生物医学中的应用</a>
+              </p>
+              <p id="ref-39"><strong>[39]</strong>
+                <a href="https://www.med-english.com/news/vol165.php" class="citation-link">医学英语 - 东京大学自律物质探索机器人</a>
+              </p>
+              <p id="ref-41"><strong>[41]</strong>
+                <a href="https://blockchain-biz-consulting.com/media/iryou-ai-katsuyou-jirei/" class="citation-link">区块链商业咨询 - AI医疗应用案例</a>
+              </p>
+              <p id="ref-42"><strong>[42]</strong>
+                <a href="https://www.science.co.jp/annotation_blog/40838/" class="citation-link">Science Japan - AI肺部功能检测</a>
+              </p>
+              <p id="ref-44"><strong>[44]</strong>
+                <a href="https://research.sdmjapan.com/successful-ai-drug-discovery-cases/" class="citation-link">SDM Japan - AI药物发现成功案例</a>
+              </p>
+              <p id="ref-47"><strong>[47]</strong>
+                <a href="https://analyzing-testing.netzsch.com/ja/burogu/2025/doitufa-rimusuchu-noaida-zai-materiaruinteriziensupuratutohuomu" class="citation-link">NETZSCH - 材料智能平台LabV</a>
+              </p>
+              <p id="ref-53"><strong>[53]</strong>
+                <a href="https://www.jst.go.jp/crds/pdf/2024/FR/CRDS-FY2024-FR-05/CRDS-FY2024-FR-05_20103.pdf" class="citation-link">日本科学技术振兴机构 - AlphaFold2技术评估</a>
+              </p>
+            </div>
+            <div class="space-y-2">
+              <p id="ref-59"><strong>[59]</strong>
+                <a href="https://www.mintsys.jp/wp-content/uploads/sites/3/2022/08/shraishikinen-demura-2018.pdf" class="citation-link">日本国立材料科学研究所 - AI材料设计研究</a>
+              </p>
+              <p id="ref-60"><strong>[60]</strong>
+                <a href="https://www.wpi-aimr.tohoku.ac.jp/jp/achievements/press/2018/20180209_001033.html" class="citation-link">东北大学AIMR - CoPtN合金热电材料研究</a>
+              </p>
+              <p id="ref-63"><strong>[63]</strong>
+                <a href="https://lifescience.sinh.ac.cn/webadmin/upload/20221206152144_3475_9436.pdf" class="citation-link">上海生命科学研究院 - AI4EU项目报告</a>
+              </p>
+              <p id="ref-74"><strong>[74]</strong>
+                <a href="https://www.prnewswire.com/news-releases/xtalpi-and-pfizer-expand-strategic-collaboration-to-advance-ai-driven-drug-discovery-and-materials-science-simulations-302494033.html" class="citation-link">PR Newswire - XtalPi与辉瑞合作扩展</a>
+              </p>
+              <p id="ref-106"><strong>[106]</strong>
+                <a href="https://healthmanagement.org/c/decision-support/news/first-ai-created-drug-trial" class="citation-link">HealthManagement - 首个AI设计药物临床试验</a>
+              </p>
+              <p id="ref-107"><strong>[107]</strong>
+                <a href="https://www.cas.org/resources/cas-insights/ai-drug-discovery-assessing-the-first-ai-designed-drug-candidates-to-go-into-human-clinical-trials" class="citation-link">CAS - AI药物发现评估报告</a>
+              </p>
+              <p id="ref-108"><strong>[108]</strong>
+                <a href="https://www.frontierip.co.uk/portfolio-companies/exscientia-worlds-first-trials-of-new-drug-candidate-created-by-artificial-intelligence/" class="citation-link">Frontier IP - Exscientia AI药物研发</a>
+              </p>
+              <p id="ref-109"><strong>[109]</strong>
+                <a href="https://www.drugtargetreview.com/article/56366/discovering-and-designing-drugs-with-artificial-intelligence/" class="citation-link">Drug Target Review - AI药物设计与发现</a>
+              </p>
+              <p id="ref-110"><strong>[110]</strong>
+                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9054182/" class="citation-link">PMC - AI在药物研发中的应用</a>
+              </p>
+              <p id="ref-111"><strong>[111]</strong>
+                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9054182/" class="citation-link">PMC - AI加速药物发现研究</a>
+              </p>
+              <p id="ref-115"><strong>[115]</strong>
+                <a href="https://www.pharmaceutical-technology.com/news/sumitomo-dainippon-exscientia-ai-drug/" class="citation-link">Pharmaceutical Technology - 住友大日本制药与Exscientia合作</a>
+              </p>
+              <p id="ref-126"><strong>[126]</strong>
+                <a href="https://pharmaphorum.com/digital/the-future-of-ai-drug-discovery-development-in-immunology-and-gpcr-research" class="citation-link">PharmaPhorum - AI药物发现的未来</a>
+              </p>
+              <p id="ref-132"><strong>[132]</strong>
+                <a href="https://sifted.eu/articles/ai-drug-discovery-startups" class="citation-link">Sifted - AI药物发现创业公司</a>
+              </p>
+              <p id="ref-177"><strong>[177]</strong>
+                <a href="https://blog.yesenergy.com/yeblog/the-utility-of-ai/ml-for-complex-energy-systems" class="citation-link">Yes Energy - AI在复杂能源系统中的应用</a>
+              </p>
+              <p id="ref-178"><strong>[178]</strong>
+                <a href="https://www.vktr.com/ai-disruption/5-ai-case-studies-in-energy/" class="citation-link">VKTR - 能源行业AI案例研究</a>
+              </p>
+              <p id="ref-179"><strong>[179]</strong>
+                <a href="https://www.maximaconsulting.com/newsroom/artificial-intelligence-use-cases-in-utilities-and-energy-industry" class="citation-link">Maxima Consulting - 能源行业AI应用案例</a>
+              </p>
+              <p id="ref-183"><strong>[183]</strong>
+                <a href="https://www.utilitydive.com/news/pnnl-microsoft-artificial-intelligence-research-battery/704176/" class="citation-link">Utility Dive - PNNL与微软AI电池研究</a>
+              </p>
+              <p id="ref-184"><strong>[184]</strong>
+                <a href="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/Accelerating-Sustainability-with-AI-2025.pdf" class="citation-link">微软 - 用AI加速可持续发展</a>
+              </p>
+              <p id="ref-200"><strong>[200]</strong>
+                <a href="https://www.cnbc.com/2020/12/17/climate-change-falls-down-the-agenda-at-ai-lab-deepmind.html" class="citation-link">CNBC - DeepMind能源优化应用</a>
+              </p>
+              <p id="ref-204"><strong>[204]</strong>
+                <a href="https://smartdev.com/ai-use-cases-in-energy-sector/" class="citation-link">SmartDev - 能源行业AI用例</a>
+              </p>
+              <p id="ref-244"><strong>[244]</strong>
+                <a href="https://www.ijirset.com/upload/2024/june/280_AI.pdf" class="citation-link">IJIRSET - AI在半导体制造中的预测分析</a>
+              </p>
+              <p id="ref-352"><strong>[352]</strong>
+                <a href="https://arxiv.org/html/2406.10557v5" class="citation-link">arXiv - AI在气候科学中的应用</a>
+              </p>
+              <p id="ref-356"><strong>[356]</strong>
+                <a href="https://fastdatascience.com/ai-in-research/" class="citation-link">Fast Data Science - AI在研究中的应用</a>
+              </p>
+              <p id="ref-361"><strong>[361]</strong>
+                <a href="https://www.nature.com/articles/d42473-025-00161-3" class="citation-link">Nature - 基于物理的AI增强方法</a>
+              </p>
+              <p id="ref-362"><strong>[362]</strong>
+                <a href="https://medium.com/stories-from-air-street/6-use-cases-for-ai-in-life-sciences-9e64b0c2a350" class="citation-link">Medium - 生命科学中AI的6个用例</a>
+              </p>
+              <p id="ref-377"><strong>[377]</strong>
+                <a href="https://www.cas.org/resources/cas-insights/ai-for-science-trends" class="citation-link">CAS - AI for Science趋势报告</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+        // Initialize Mermaid with custom theme and configuration
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1e293b',
+                primaryBorderColor: '#1e40af',
+                lineColor: '#64748b',
+                secondaryColor: '#f8fafc',
+                tertiaryColor: '#e0f2fe',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f8fafc',
+                tertiaryBkg: '#e0f2fe',
+                nodeBkg: '#ffffff',
+                nodeBorder: '#1e40af',
+                clusterBkg: '#f8fafc',
+                clusterBorder: '#64748b',
+                defaultLinkColor: '#64748b',
+                titleColor: '#1e293b',
+                edgeLabelBackground: '#ffffff',
+                nodeTextColor: '#1e293b'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20
+            }
+        });
+
+        // Initialize Mermaid Controls for zoom and pan
+        function initializeMermaidControls() {
+            const containers = document.querySelectorAll('.mermaid-container');
+
+            containers.forEach(container => {
+            const mermaidElement = container.querySelector('.mermaid');
+            let scale = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            // 触摸相关状态
+            let isTouch = false;
+            let touchStartTime = 0;
+            let initialDistance = 0;
+            let initialScale = 1;
+            let isPinching = false;
+
+            // Zoom controls
+            const zoomInBtn = container.querySelector('.zoom-in');
+            const zoomOutBtn = container.querySelector('.zoom-out');
+            const resetBtn = container.querySelector('.reset-zoom');
+            const fullscreenBtn = container.querySelector('.fullscreen');
+
+            function updateTransform() {
+                mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+                if (scale > 1) {
+                container.classList.add('zoomed');
+                } else {
+                container.classList.remove('zoomed');
+                }
+
+                mermaidElement.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', () => {
+                scale = Math.min(scale * 1.25, 4);
+                updateTransform();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', () => {
+                scale = Math.max(scale / 1.25, 0.3);
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateTransform();
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+                });
+            }
+
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', () => {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+                });
+            }
+
+            // Mouse Events
+            mermaidElement.addEventListener('mousedown', (e) => {
+                if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mermaidElement.style.cursor = 'grabbing';
+                updateTransform();
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging && !isTouch) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseleave', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            // 获取两点之间的距离
+            function getTouchDistance(touch1, touch2) {
+                return Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+                );
+            }
+
+            // Touch Events - 触摸事件处理
+            mermaidElement.addEventListener('touchstart', (e) => {
+                isTouch = true;
+                touchStartTime = Date.now();
+
+                if (e.touches.length === 1) {
+                // 单指拖动
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+
+                } else if (e.touches.length === 2) {
+                // 双指缩放
+                isPinching = true;
+                isDragging = false;
+
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = getTouchDistance(touch1, touch2);
+                initialScale = scale;
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && isDragging && !isPinching) {
+                // 单指拖动
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                updateTransform();
+
+                } else if (e.touches.length === 2 && isPinching) {
+                // 双指缩放
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = getTouchDistance(touch1, touch2);
+
+                if (initialDistance > 0) {
+                    const newScale = Math.min(Math.max(
+                    initialScale * (currentDistance / initialDistance),
+                    0.3
+                    ), 4);
+                    scale = newScale;
+                    updateTransform();
+                }
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchend', (e) => {
+                // 重置状态
+                if (e.touches.length === 0) {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                // 延迟重置isTouch，避免鼠标事件立即触发
+                setTimeout(() => {
+                    isTouch = false;
+                }, 100);
+                } else if (e.touches.length === 1 && isPinching) {
+                // 从双指变为单指，切换为拖动模式
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                }
+
+                updateTransform();
+            });
+
+            mermaidElement.addEventListener('touchcancel', (e) => {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                setTimeout(() => {
+                isTouch = false;
+                }, 100);
+
+                updateTransform();
+            });
+
+            // Enhanced wheel zoom with better center point handling
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+                // Adjust translation to zoom towards center
+                if (newScale !== scale) {
+                const scaleDiff = newScale / scale;
+                translateX = translateX * scaleDiff;
+                translateY = translateY * scaleDiff;
+                scale = newScale;
+
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+
+                updateTransform();
+                }
+            });
+
+            // Initialize display
+            updateTransform();
+            });
+        }
+
+        // Initialize mermaid controls when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMermaidControls();
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight active section in TOC
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-fixed a[href^="#"]');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('text-primary', 'font-semibold');
+                link.classList.add('text-secondary');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.remove('text-secondary');
+                    link.classList.add('text-primary', 'font-semibold');
+                }
+            });
+        });
+    </script>
+  
+
+</body></html>
