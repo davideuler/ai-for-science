@@ -48,40 +48,6 @@
             margin-bottom: 20px;
         }
 
-        .search-box {
-            position: relative;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 45px 12px 20px;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .search-box button {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
         .section {
             margin-bottom: 40px;
             background: rgba(255, 255, 255, 0.95);
@@ -230,10 +196,6 @@
         <div class="header">
             <h1>🧠 AI for Science 资料参考站</h1>
             <p>探索人工智能在科学研究中的前沿应用与发展</p>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="搜索资料...">
-                <button onclick="searchFiles()">🔍</button>
-            </div>
         </div>
 
         <div class="stats">
@@ -386,32 +348,6 @@
                 window.open(filename, '_blank');
             }
         }
-
-        function searchFiles() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const fileItems = document.querySelectorAll('.file-item');
-            
-            fileItems.forEach(item => {
-                const fileName = item.querySelector('.file-name').textContent.toLowerCase();
-                const fileDesc = item.querySelector('.file-desc').textContent.toLowerCase();
-                
-                if (fileName.includes(searchTerm) || fileDesc.includes(searchTerm)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = searchTerm === '' ? 'block' : 'none';
-                }
-            });
-        }
-
-        // 实时搜索
-        document.getElementById('searchInput').addEventListener('input', searchFiles);
-
-        // 回车搜索
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchFiles();
-            }
-        });
 
         // 页面加载动画
         window.addEventListener('load', function() {
