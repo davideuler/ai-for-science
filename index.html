@@ -136,6 +136,17 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
+        .file-desc a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .file-desc a:hover {
+            text-decoration: underline;
+        }
+        .file-item:hover .file-desc a {
+            color: #fff;
+        }
+
         .stats {
             display: flex;
             justify-content: space-around;
@@ -294,7 +305,7 @@
                 <div class="file-item" onclick="openFile('AAAI25_AI for Science with LLMs.pdf')">
                     <div class="file-type">PDF</div>
                     <div class="file-name">AAAI 2025: 大语言模型在科学研究中的应用</div>
-                    <div class="file-desc">AAAI 2025会议论文：LLM在科学研究中的前沿应用</div>
+                    <div class="file-desc">AAAI 2025会议论文：LLM在科学研究中的前沿应用<br><a href="https://xuanwang91.github.io/2025-02-25-aaai25-tutorial" target="_blank" onclick="event.stopPropagation()">参考链接</a></div>
                 </div>
                 
                 <div class="file-item" onclick="openFile('AI For Science 2025_d42473-025-00161-3.pdf')">
